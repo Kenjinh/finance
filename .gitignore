@@ -1,2 +1,21 @@
+# Database file
 database
-env/.env
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media
+# Environments 
+.env 
+.venv 
+env/ 
+venv/
+*/venv/*
+ENV/ 
+env.bak/ 
+venv.bak/
+# Static Admin Rest
+*/static/rest_framework/
+*/static/admin/
