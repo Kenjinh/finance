@@ -55,7 +55,12 @@ class ExpenseView(APIView):
             serializer = ExpenseSerializer(expenses, many=False)
             return Response(serializer.data)
         else:
-            expenses = Expense.objects.all()
+            month = self.request.query_params.get('month')
+            if month:
+                month = month.split('-')
+                expenses = Expense.objects.filter(date__month=month[1], date__year=month[0])
+            else:
+                expenses = Expense.objects.all()
             serializer = ExpenseSerializer(expenses, many=True)
             return Response(serializer.data)
 

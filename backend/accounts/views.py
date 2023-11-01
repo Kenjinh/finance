@@ -29,13 +29,14 @@ class AccountView(APIView):
         if serializer.is_valid():
             username = serializer.validated_data['username']
             password = serializer.validated_data['password']
+            email = serializer.validated_data['email']
         
-            if not username or not password:
+            if not username or not password or not email:
                 return Response({'error': 'Missing username or password'}, status=400)
             try:
-                user = User.objects.create_user(username=username, password=password)
+                user = User.objects.create_user(username=username, password=password, email=email)
                 token, created = Token.objects.get_or_create(user=user)
-                return Response({'user_id': user.id, 'token': token.key}, status=201)
+                return Response({'id': user.id, 'username': user.username, 'email': user.email, 'token': token.key}, status=201)
             except IntegrityError:
                 return Response({'error': 'User already exists'}, status=400)
             except Exception as e:
@@ -56,6 +57,6 @@ class AccountAuthView(APIView):
         try:
             user = authenticate(username=username, password=password)
             token, created = Token.objects.get_or_create(user=user)
-            return Response({'user_id': user.id, 'token': token.key}, status=200)
+            return Response({'id': user.id, 'username': user.username, 'email': user.email, 'token': token.key}, status=200)
         except User.DoesNotExist:
             return Response({'error': 'User does not exist'}, status=400)

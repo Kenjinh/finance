@@ -29,5 +29,8 @@ class Expense(models.Model):
             expenses.append(expense)
             current_date += timedelta(days=30)
         return expenses
+    class Meta:
+        ordering = ('-date',)
+
 
     

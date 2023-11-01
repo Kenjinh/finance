@@ -65,14 +65,15 @@ def test_create_expense(client):
     category_id = response.data['id']
     response = client.post(
         "/api/account/",
-        {
+        {   
+            "email": "teste@teste.com",
             "username": "teste",
             "password": "teste1234"
         },
         content_type="application/json"
     )
     assert response.status_code == 201
-    user_id = response.data['user_id']
+    user_id = response.data['id']
     response = client.post(
         "/api/expense/",
         {
@@ -110,14 +111,15 @@ def test_create_expense_interval(client):
     category_id = response.data['id']
     response = client.post(
         "/api/account/",
-        {
+        {   
+            "email": "teste@teste.com",
             "username": "teste",
             "password": "teste1234"
         },
         content_type="application/json"
     )
     assert response.status_code == 201
-    user_id = response.data['user_id']
+    user_id = response.data['id']
     response = client.post(
         "/api/expense/",
         {
@@ -138,28 +140,3 @@ def test_create_expense_interval(client):
     assert response.data[0]['date'] == datetime.now().date().strftime('%Y-%m-%d')
     assert response.data[0]['user'] == user_id
     assert expense.count() == 2
-
-# @pytest.mark.django_db
-# def test_get_expenses(client):
-#     response = client.get("/api/expense/")
-#     assert response.status_code == 200
-
-# @pytest.mark.django_db
-# def test_update_expense(client):
-#     response = client.post(
-#         "/api/expense/",
-#         {
-#             "name": "Casa"
-#         },
-#         content_type="application/json"
-#     )
-#     assert response.status_code == 201
-#     response = client.patch(
-#         f"/api/expense/{response.data['id']}",
-#         {
-#             "name": "Carro"
-#         },
-#         content_type="application/json"
-#     )
-#     assert response.status_code == 200
-#     assert response.data['name'] == "Carro"

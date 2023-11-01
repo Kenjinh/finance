@@ -7,6 +7,8 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ExpenseSerializer(serializers.ModelSerializer):
+    category_name = serializers.CharField(source='category.name')
+    user_name = serializers.CharField(source='user.username')
     class Meta:
         model = Expense
         fields = '__all__'
