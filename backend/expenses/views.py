@@ -50,17 +50,18 @@ class CategoryView(APIView):
             
 class ExpenseView(APIView):
     def get(self, request, pk=None):
+        user_id = self.request.query_params.get('user_id')
         if pk is not None:
-            expenses = Expense.objects.get(id=pk)
+            expenses = Expense.objects.get(id=pk, user_id=user_id)
             serializer = ExpenseSerializer(expenses, many=False)
             return Response(serializer.data)
         else:
             month = self.request.query_params.get('month')
             if month:
                 month = month.split('-')
-                expenses = Expense.objects.filter(date__month=month[1], date__year=month[0])
+                expenses = Expense.objects.filter(date__month=month[1], date__year=month[0], user_id=user_id)
             else:
-                expenses = Expense.objects.all()
+                expenses = Expense.objects.filter(user_id=user_id)
             serializer = ExpenseSerializer(expenses, many=True)
             return Response(serializer.data)
 
@@ -82,6 +83,8 @@ class ExpenseView(APIView):
             except Exception as e:
                 return Response({'error': f'Error on create with interval: {str(e)}'}, status=400)
         else:
+            if not (description and amount and category and date and user):
+                return Response({'error': 'All fields are required'}, status=400)
             data = {
                 'description': description,
                 'amount': amount,

@@ -16,17 +16,42 @@ services:
     volumes:
       - ./database/mysql:/var/lib/mysql
       
-  # backend:
-  #   container_name: finance_backend
-  #   build: 
-  #     context: ./backend
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - 8000:8000
-  #   volumes:
-  #     - .:/app
-  #   env_file:
-  #     - env/.env
-  #   depends_on:
-  #     - mysql
-  #   command: ["/app/start.sh"]
+  backend:
+    container_name: finance_backend
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - ./backend:/app
+    env_file:
+      - env/.env
+    depends_on:
+      - mysql
+    command: ["/app/start.sh"]
+
+  frontend:
+    container_name: finance_frontend
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/app
+    env_file:
+      - env/.env
+    depends_on:
+      - backend
+    command: ["yarn", "dev"]
+
+  nginx:
+    container_name: finance_nginx
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - frontend

@@ -46,6 +46,8 @@ class AccountView(APIView):
 
 
 class AccountAuthView(APIView):
+    permission_classes = []
+    authentication_classes = []
     def post(self, request):
         """
         User Login

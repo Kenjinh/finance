@@ -1,7 +1,6 @@
 FROM python:3.10-slim
-
+ENV PYTHONUNBUFFERED 1
 WORKDIR /app
-
 RUN apt-get update -y
 RUN apt-get install -y --fix-missing gcc
 RUN apt-get install -y python3-dev build-essential --fix-missing
