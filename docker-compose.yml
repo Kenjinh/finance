@@ -1,24 +1,19 @@
-version: '3'
+version: "3"
 services:
-  mysql:
+  db:
     container_name: finance_db
     restart: "on-failure"
     image: mysql:8
     ports:
-      - 3306:3306
+      - 3030:3306
     env_file:
       - env/.env
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
     volumes:
       - ./database/mysql:/var/lib/mysql
-      
+
   backend:
     container_name: finance_backend
-    build: 
+    build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
@@ -28,12 +23,12 @@ services:
     env_file:
       - env/.env
     depends_on:
-      - mysql
+      - db
     command: ["/app/start.sh"]
 
   frontend:
     container_name: finance_frontend
-    build: 
+    build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
