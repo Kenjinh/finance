@@ -41,7 +41,6 @@ export default function Dashboard(){
             "interval": interval,
             "date": date
         };
-        console.log(data)
         await axios.post('/api/expenses', JSON.stringify(data), {
             headers: {
                 'Content-Type': 'application/json'
