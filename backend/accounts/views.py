@@ -9,16 +9,8 @@ from django.contrib.auth import authenticate
 from accounts.serializers import AccountSerializer
 
 class AccountView(APIView):
-    def get(self, request):
-        """
-        Return a list of all users.
-        """
-        try:
-            users =  User.objects.all()
-        except User.DoesNotExist:
-            return Response(status=404)
-        serializer = AccountSerializer(users, many=True)
-        return Response(serializer.data)
+    permission_classes = []
+    authentication_classes = []
     
     def post(self, request):
         """
