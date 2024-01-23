@@ -18,7 +18,7 @@ export async function GET(request: Request, res: NextApiResponse) {
     const session = await getServerSession(nextAuthOption)
     const { searchParams } = new URL(request.url)
     const month = searchParams.get('month')
-    const url = month ? `http://finance_backend:8000/api/expense/?month=${month}&user_id=${session?.user.id}` : `http://finance_backend:8000/api/expense/?user_id=${session?.user.id}`;
+    const url = month ? `http://backend:8000/api/expense/?month=${month}&user_id=${session?.user.id}` : `http://backend:8000/api/expense/?user_id=${session?.user.id}`;
     const response = await axios.get(url, {headers:{Authorization: `Token ${session?.user.token}`}});
     const expenses: Expense[] = response.data;
     if (response.status == 200){
@@ -32,7 +32,7 @@ export async function POST(request: Request, res: NextApiResponse) {
     const session = await getServerSession(nextAuthOption)
     const data = await request.json()
     if (data) {
-        const url = 'http://finance_backend:8000/api/expense/'
+        const url = 'http://backend:8000/api/expense/'
         data.user = session?.user.id
         const response = await axios.post(url, data, {headers:{Authorization: `Token ${session?.user.token}`}});
         const expenses: Expense[] = response.data;
