@@ -7,7 +7,6 @@ import UserMenu from '../UserMenu/UserMenu';
 
 export default async function Header() {
     const session = await getServerSession(nextAuthOption)
-    
     return (
         <Navbar position='sticky' className='bg-primary w-full text-secondary'>
           <NavbarBrand>
@@ -26,14 +25,14 @@ export default async function Header() {
                 <Link color='secondary' href='/auth/login'>Login</Link>
               </NavbarItem>
               <NavbarItem>
-                <Button as={Link} color='secondary' href='/auth/signup' variant='flat'>
+                <Button as={Link} color='secondary' href='/auth/signin' variant='flat'>
                   Registrar
                 </Button>
               </NavbarItem>
             </NavbarContent>
             ):(
             <NavbarContent justify='end'>
-              <UserMenu session={session}/>
+              <UserMenu session={ await session}/>
             </NavbarContent>
             )}
             <ThemeSwitcher/>
