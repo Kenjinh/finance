@@ -12,7 +12,7 @@ const nextAuthOption: NextAuthOptions = {
           },
           async authorize(credentials, req) {
             const response = await axios.post(
-                "http://localhost:8000/api/account/auth/",
+                "http://backend:8000/api/account/auth/",
                 {"username": credentials?.username, "password": credentials?.password },
                 {
                     headers: {
