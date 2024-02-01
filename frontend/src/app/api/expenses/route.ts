@@ -18,8 +18,14 @@ export async function GET(request: Request, res: NextApiResponse) {
     const session = await getServerSession(nextAuthOption)
     const { searchParams } = new URL(request.url)
     const month = searchParams.get('month')
-    const url = month ? `http://backend:8000/api/expense/?month=${month}&user_id=${session?.user.id}` : `http://backend:8000/api/expense/?user_id=${session?.user.id}`;
-    const response = await axios.get(url, {headers:{Authorization: `Token ${session?.user.token}`}});
+    const description = searchParams.get('description')
+    const url = `http://backend:8000/api/expense/`;
+    const response = await axios.get(
+        url, 
+        {
+            headers:{Authorization: `Token ${session?.user.token}`}, 
+            params: {month: month, description: description, user_id: session?.user.id}
+        });
     const expenses: Expense[] = response.data;
     if (response.status == 200){
         return Response.json(expenses)
