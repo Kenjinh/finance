@@ -10,7 +10,7 @@ export default function LoginPage() {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [email, setEmail] = useState<string>('');
-    const [errorMessage, setErrorMessage] = useState<string[]>([]);
+    const [errorMessage, setErrorMessage] = useState<any[]>([]);
     const [message, setMessage] = useState<string>('');
 
     const router = useRouter()
@@ -50,14 +50,14 @@ export default function LoginPage() {
                             ))}
                             </div>
                         )}
-                            <Input color='secondary' variant='underlined' type='text' name='username' label='Username'
-                                onChange={(e) => setUsername(e.target.value)}
+                            <Input color='secondary' variant='underlined' type='text' name='username'
+                             aria-label='Username' label='Username' onChange={(e) => setUsername(e.target.value)}
                             ></Input>
-                            <Input color='secondary' variant='underlined' type='text' name='email' label='Email'
-                                onChange={(e) => setEmail(e.target.value)}
+                            <Input color='secondary' variant='underlined' type='text' name='email' 
+                                aria-label='Email' label='Email' onChange={(e) => setEmail(e.target.value)}
                             ></Input>
-                            <Input color='secondary' variant='underlined' type='password' name='password' label='Password'
-                                onChange={(e) => setPassword(e.target.value)}
+                            <Input color='secondary' variant='underlined' type='password' name='password' 
+                                aria-label='Password' label='Password' onChange={(e) => setPassword(e.target.value)}
                             ></Input>
                             <Button 
                             className='hover:font-bold hove:scale-125' 

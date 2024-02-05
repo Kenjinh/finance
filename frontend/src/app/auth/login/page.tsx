@@ -34,10 +34,12 @@ export default function LoginPage() {
                     <Divider/>
                     <CardBody className='flex justify-center'>
                         <div className='flex flex-col gap-4 p-3'>
-                            <Input color='secondary' variant='underlined' type='text' name='username' label='Username'
+                            <Input color='secondary' variant='underlined' aria-label='Username'
+                            type='text' name='username' label='Username'
                                 onChange={(e) => setUsername(e.target.value)}
                             ></Input>
-                            <Input color='secondary' variant='underlined' type='password' name='password' label='Password'
+                            <Input color='secondary' variant='underlined' arial-aria-label='Password'
+                            type='password' name='password' label='Password'
                                 onChange={(e) => setPassword(e.target.value)}
                             ></Input>
                             <Button 
