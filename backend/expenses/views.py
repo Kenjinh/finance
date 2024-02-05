@@ -50,18 +50,23 @@ class CategoryView(APIView):
             
 class ExpenseView(APIView):
     def get(self, request, pk=None):
+        filter = {}
         user_id = self.request.query_params.get('user_id')
+        month = self.request.query_params.get('month')
+        description = self.request.query_params.get('description')
         if pk is not None:
             expenses = Expense.objects.get(id=pk, user_id=user_id)
             serializer = ExpenseSerializer(expenses, many=False)
             return Response(serializer.data)
         else:
-            month = self.request.query_params.get('month')
+            if user_id is not None:
+                filter.update({'user_id': user_id})
             if month:
                 month = month.split('-')
-                expenses = Expense.objects.filter(date__month=month[1], date__year=month[0], user_id=user_id)
-            else:
-                expenses = Expense.objects.filter(user_id=user_id)
+                filter.update({'date__month': month[1], 'date__year':month[0]})
+            if description:
+                filter.update({'description__icontains': description})
+            expenses = Expense.objects.filter(**filter)
             serializer = ExpenseSerializer(expenses, many=True)
             return Response(serializer.data)
 
