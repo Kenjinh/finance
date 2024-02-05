@@ -20,11 +20,44 @@ class Expense(models.Model):
     
     @classmethod
     def create_with_interval(cls, description, amount, date, interval, category_id, user_id):
+        """
+        Create multiple expenses with a specified interval.
+
+        Args:
+        description (str): Description of the expenses.
+        amount (float): Amount of the expenses.
+        date (str): Date of the first expense in the format '%Y-%m-%d'.
+        interval (int): Number of expenses to create.
+        category_id (int): ID of the expense category.
+        user_id (int): ID of the user.
+
+        Returns:
+        list: List of created expenses.
+        """
         expenses = []
         date = datetime.strptime(date, '%Y-%m-%d').date()
         current_date = date
+        if interval == 0:
+            expense = cls(
+                description=description,
+                amount=amount,
+                date=current_date,
+                interval=interval,
+                category_id=category_id,
+                user_id=user_id
+            )
+            expense.save()
+            expenses.append(expense)
+            return expenses
         for _ in range(interval):
-            expense = cls(description=description, amount=amount, date=current_date, interval=interval, category_id=category_id, user_id=user_id)
+            expense = cls(
+                description=description,
+                amount=amount,
+                date=current_date,
+                interval=interval,
+                category_id=category_id,
+                user_id=user_id
+            )
             expense.save()
             expenses.append(expense)
             current_date += timedelta(days=30)
