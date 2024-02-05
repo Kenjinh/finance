@@ -1,15 +1,12 @@
-FROM node:18
+FROM node:18-slim
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN yarn init -y
-
-RUN yarn install
-
 COPY . .
 
-RUN yarn build
+RUN npm install -g pnpm
+RUN pnpm install
 
 EXPOSE 3000
