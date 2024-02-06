@@ -11,7 +11,7 @@ const nextAuthOption: NextAuthOptions = {
             password: { label: "Password", type: "password" }
           },
           async authorize(credentials, req) {
-            const response = await axios.post(
+            return await axios.post(
                 "http://backend:8000/api/account/auth/",
                 {"username": credentials?.username, "password": credentials?.password },
                 {
@@ -20,11 +20,13 @@ const nextAuthOption: NextAuthOptions = {
                     }
                 }
             )
-            const data = response.data
-            if (response.status == 200 && data.id) {
-              return data;
-            }
-            return null
+            .then((response) => {
+              return response.data;
+            })
+            .catch((error) => {
+              console.log(error.response.data);
+              throw new Error(error.response.data.error);
+            }) || null;
           }
         })
     ],
@@ -40,7 +42,6 @@ const nextAuthOption: NextAuthOptions = {
             session.user = token.user as any
             return session
         }
-            
     }
 }
 
