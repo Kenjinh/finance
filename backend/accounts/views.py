@@ -50,6 +50,8 @@ class AccountAuthView(APIView):
             return Response({'error': 'Missing username or password'}, status=400)
         try:
             user = authenticate(username=username, password=password)
+            if not user:
+                return Response({'error': 'Invalid credentials'}, status=400)
             token, created = Token.objects.get_or_create(user=user)
             return Response({'id': user.id, 'username': user.username, 'email': user.email, 'token': token.key}, status=200)
         except User.DoesNotExist:
