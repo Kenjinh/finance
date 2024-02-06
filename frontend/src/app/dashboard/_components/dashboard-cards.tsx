@@ -9,7 +9,7 @@ export default function DashboardCards({ totalExpenses, totalRevenue }: { totalE
         <Card>
           <CardHeader className="flex justify-center">Total Gasto</CardHeader>
           <CardBody className="flex flex-row gap-2 items-center">
-            <div>
+            <div className="flex flex-row items-center">
               <BanknotesIcon className="text-danger w-8 h-8" />
               <ArrowDownIcon className="text-danger w-4 h-4" />
             </div>
@@ -19,7 +19,7 @@ export default function DashboardCards({ totalExpenses, totalRevenue }: { totalE
         <Card>
           <CardHeader className="flex justify-center">Total Receita</CardHeader>
           <CardBody className="flex flex-row gap-2 items-center">
-            <div>
+            <div className="flex flex-row items-center">
               <BanknotesIcon className="text-success w-8 h-8" />
               <ArrowUpIcon className="text-success w-4 h-4" />
             </div>

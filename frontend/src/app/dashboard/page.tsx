@@ -13,6 +13,7 @@ import DashboardTable from "./_components/dashboard-table";
 import DashboardHeader from "./_components/dashboard-header";
 import DashboardCards from "./_components/dashboard-cards";
 import NotificationCard from "@/components/General/NotificationCard";
+import Loading from "@/components/General/Loading";
 
 export default function Dashboard() {
     const [expenses, setExpenses] = useState<Expense[]>([])
@@ -23,14 +24,17 @@ export default function Dashboard() {
     const searchParams = useSearchParams()
     const monthFilter = searchParams.get("month");
     const descriptionFilter = searchParams.get("description");
+    const [loading, setLoading] = useState<boolean>(true);
 
 
     async function fetchData() {
         try {
             await fetchExpenses();
             await fetchRevenue();
+            setLoading(false);
         } catch (error) {
             setNotification({ type: 'error', message: 'Erro ao carregar dados' });
+            setLoading(false);
         }
     }
 
@@ -62,6 +66,9 @@ export default function Dashboard() {
         fetchData()
     }, [searchParams])
 
+    if (loading) {
+        return <Loading />
+    }
     return (
         <div className="h-screen">
             {notification &&

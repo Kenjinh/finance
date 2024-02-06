@@ -3,7 +3,7 @@ import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, Image } f
 import { getServerSession } from 'next-auth';
 import { nextAuthOption } from '@/lib/auth';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher/ThemeSwitcher';
-import UserMenu from '../UserMenu/UserMenu';
+import UserMenu from './UserMenu';
 import { CurrencyDollarIcon } from '@heroicons/react/20/solid';
 
 export default async function Header() {

@@ -4,14 +4,20 @@ import { Card, CardBody, CardHeader, Input, Divider, Button, CardFooter, Link, I
 import { signIn } from 'next-auth/react';
 import { SyntheticEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Notification } from '@/types/types';
+import NotificationCard from '@/components/General/NotificationCard';
 
 export default function LoginPage() {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
+    const [notification, setNotification] = useState<Notification | null>(null);
 
     const router = useRouter()
     async function handleSubmit (event: SyntheticEvent) {
         event.preventDefault()
+        setLoading(true);
+        setNotification(null);
 
         const res = await signIn('credentials', {
             username: username,
@@ -19,9 +25,15 @@ export default function LoginPage() {
             redirect: false
         })
         if (res?.error){
-            return
+            console.log(res)
+            setNotification({ type: 'error', message: res.error })
+            setLoading(false);
         }
-        router.replace('/')
+        if (res?.ok){
+            router.replace('/')
+            setNotification({ type: 'success', message: 'Login realizado com sucesso' })
+            setLoading(false);
+        }
     }
 
     return(
@@ -46,7 +58,8 @@ export default function LoginPage() {
                             className='hover:font-bold hove:scale-125' 
                             type='submit' 
                             onClick={handleSubmit}
-                            >Login<PaperAirplaneIcon className='h-4 w-4 group-hover:translate-x-8 group-hover:delay-75 ease-in duration-300'/></Button>
+                            disabled={loading}
+                            >{loading ? 'Loading...' : 'Login'}<PaperAirplaneIcon className='h-4 w-4 group-hover:translate-x-8 group-hover:delay-75 ease-in duration-300'/></Button>
                         </div>
                     </CardBody>
                     <Divider/>
@@ -59,6 +72,13 @@ export default function LoginPage() {
                 <Image src='/images/login.jpg' alt='login' width={500} 
                     height={500} radius='none' className='rounded-r-3xl'/>
             </div>
+            {notification && (
+                <NotificationCard
+                    type={notification.type}
+                    message={notification.message}
+                    onClose={() => setNotification(null)}
+                />
+            )}
         </div>
     )
 }

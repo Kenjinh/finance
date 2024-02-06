@@ -22,7 +22,7 @@ export default function DashboardTable({ expenses }: { expenses: Expense[] }) {
             <TableCell>R$ {expense.amount}</TableCell>
             <TableCell>{expense.category_name}</TableCell>
             <TableCell>{expense.user_name}</TableCell>
-            <TableCell>{expense.interval}</TableCell>
+            <TableCell>{expense.interval ? expense.interval + "x" : ''}</TableCell>
             <TableCell>{expense.date}</TableCell>
             <TableCell className="flex flex-row gap-2">
               <TrashIcon className="w-4 h-4 text-danger" />
